@@ -1,0 +1,15 @@
+.donut-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.donut-center {
+    position: absolute;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--slds-g-color-neutral-base-50, #444);
+    text-align: center;
+}

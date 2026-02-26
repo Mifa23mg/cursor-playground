@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Radiography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fff;
+      color: #181818;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      gap: 46px;
+      padding: 24px;
+      max-width: 1720px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 52px;
+      font-weight: 400;
+      line-height: 1.2;
+      color: #000;
+    }
+
+    .main-container {
+      display: flex;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      height: 840px;
+    }
+
+    /* Left Sidebar */
+    .sidebar-left {
+      width: 320px;
+      flex-shrink: 0;
+      border-right: 1px solid #c9c9c9;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .nav-section {
+      background: #f7f7f7;
+      border-radius: 4px;
+    }
+
+    .nav-section-header {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 18px;
+      font-weight: 400;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      color: #000;
+      padding: 8px 12px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      border-bottom: 1px solid #eaeaea;
+      gap: 12px;
+    }
+
+    .nav-item:last-child { border-bottom: none; }
+
+    .nav-item.selected {
+      background: transparent;
+    }
+
+    .nav-item .selection-indicator {
+      width: 4px;
+      height: 100%;
+      min-height: 24px;
+      border-radius: 4px 0 0 4px;
+      flex-shrink: 0;
+    }
+
+    .nav-item:not(.selected) .selection-indicator { background: transparent; }
+    .nav-item.selected .selection-indicator { background: #0075BC; }
+
+    .nav-item .label {
+      flex: 1;
+      font-size: 16px;
+      color: #444;
+      text-decoration: none;
+    }
+
+    .nav-item.selected .label {
+      color: #0075BC;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .nav-item .arrow {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-item .arrow svg {
+      width: 16px;
+      height: 16px;
+      fill: #444;
+    }
+
+    /* Center Content */
+    .content-area {
+      flex: 1;
+      display: flex;
+      gap: 0;
+      min-width: 0;
+      position: relative;
+    }
+
+    .content-main {
+      flex: 1;
+      padding: 32px 40px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section-header {
+      position: absolute;
+      left: 40px;
+      top: 32px;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 8px 16px;
+      border-radius: 20px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-header h2 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 32px;
+      font-weight: 400;
+      color: #000;
+    }
+
+    /* Product Card */
+    .product-card {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 155px;
+      width: 375px;
+      background: #fff;
+      border: 2px solid #c9c9c9;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .product-card-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #005CA9;
+      color: #fff;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .product-card-body {
+      padding: 20px;
+    }
+
+    .radio-outer {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #fff;
+      border-radius: 50%;
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    .product-description {
+      font-size: 14px;
+      font-weight: 600;
+      color: #00263e;
+      line-height: 1.36;
+      margin-bottom: 16px;
+    }
+
+    .product-divider {
+      height: 1px;
+      background: #eaeaea;
+      margin-bottom: 12px;
+    }
+
+    .coverage-title {
+      background: #f3f3f3;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #181818;
+      margin-bottom: 12px;
+    }
+
+    .coverage-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 4px 0;
+      font-size: 13px;
+      color: #181818;
+    }
+
+    .coverage-item.excluded {
+      color: #aeaeae;
+    }
+
+    .coverage-item .icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .coverage-item .icon-check {
+      color: #3ba755;
+    }
+
+    .coverage-item .icon-close {
+      color: #c23934;
+    }
+
+    /* Controls Section */
+    .controls-section {
+      position: absolute;
+      left: 40px;
+      bottom: 80px;
+      width: calc(100% - 80px);
+      max-width: 960px;
+      background: rgba(243, 243, 243, 0.4);
+      border-radius: 4px;
+      padding: 16px;
+    }
+
+    .controls-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .controls-header h3 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: #000;
+    }
+
+    .controls-header .toggle-icon {
+      width: 32px;
+      height: 32px;
+      opacity: 0.8;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 40px;
+      background: rgba(216, 230, 254, 0.4);
+      padding: 16px 32px;
+      border-radius: 20px;
+      box-shadow: inset 0 2px 2px #bed4f7;
+    }
+
+    .control-pill {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px;
+      border-radius: 9999px;
+      background: transparent;
+    }
+
+    .control-pill .control-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .control-pill .control-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #444;
+    }
+
+    .control-pill .control-icon-aa {
+      font-family: Georgia, serif;
+    }
+
+    .toggle-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .toggle-track {
+      width: 48px;
+      height: 24px;
+      background: #bebebe;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 20px;
+      height: 20px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+
+    .toggle-label {
+      font-size: 10px;
+      color: #5c5c5c;
+    }
+
+    /* Right Sidebar */
+    .sidebar-right {
+      width: 320px;
+      flex-shrink: 0;
+      background: #f3f3f3;
+      padding: 24px 16px;
+      border-radius: 0 20px 20px 0;
+    }
+
+    .specs-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 24px;
+      font-weight: 400;
+      color: #000;
+      margin-bottom: 16px;
+    }
+
+    .specs-card {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 20px;
+      padding: 16px 8px;
+      box-shadow: inset 0 3px 4px rgba(160, 160, 160, 0.5);
+    }
+
+    .specs-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #444;
+      padding: 0 8px 8px;
+      margin-bottom: 8px;
+    }
+
+    .spec-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      padding: 8px 16px;
+    }
+
+    .spec-row .spec-icon {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spec-row .spec-icon.palette {
+      background: linear-gradient(135deg, #fff 0%, #e0e0e0 50%, #c9c9c9 100%);
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+
+    .spec-row .spec-icon.border {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #00263e;
+    }
+
+    .spec-row .spec-icon.radius {
+      width: 20px;
+      height: 20px;
+      border: 2px dashed #00263e;
+      border-radius: 4px;
+    }
+
+    .spec-content {
+      flex: 1;
+    }
+
+    .spec-label {
+      font-size: 14px;
+      color: #444;
+      margin-bottom: 4px;
+    }
+
+    .spec-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .spec-value-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .color-swatch {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .color-swatch.white { background: #fff; border: 1px solid #e0e0e0; }
+    .color-swatch.gray { background: #c9c9c9; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1 class="page-title">Component Radiography</h1>
+
+    <div class="main-container">
+      <!-- Left Sidebar -->
+      <aside class="sidebar-left">
+        <nav class="nav-section">
+          <div class="nav-section-header">ENROLLMENT FLEXCARDS</div>
+          <div class="nav-item selected">
+            <div class="selection-indicator"></div>
+            <a href="#" class="label">Product Selection Card</a>
+            <span class="arrow">
+              <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </span>
+          </div>
+          <div class="nav-item">
+            <div class="selection-indicator"></div>
+            <a href="#" class="label">Plan Selection Card</a>
+            <span class="arrow">
+              <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
+            </span>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Center Content -->
+      <main class="content-area">
+        <div class="content-main">
+          <div class="section-header">
+            <h2>Product Selection Card</h2>
+          </div>
+
+          <div class="product-card">
+            <div class="product-card-header-bar">
+              <span>L&H Essential Plan</span>
+              <div class="radio-outer"></div>
+            </div>
+            <div class="product-card-body">
+            <p class="product-description">Life, Accident, Health, LTC, Medicare and Disability</p>
+            <div class="product-divider"></div>
+            <div class="coverage-title">Coverage</div>
+            <div class="coverage-list">
+              <div class="coverage-item">
+                <span class="icon icon-check">✓</span>
+                <span>Life, Accident & Health Insurance</span>
+              </div>
+              <div class="coverage-item">
+                <span class="icon icon-check">✓</span>
+                <span>Long Term Care (LTC)</span>
+              </div>
+              <div class="coverage-item">
+                <span class="icon icon-check">✓</span>
+                <span>Disability Insurance</span>
+              </div>
+              <div class="coverage-item">
+                <span class="icon icon-check">✓</span>
+                <span>Medicare Advantage & Supplements</span>
+              </div>
+              <div class="coverage-item">
+                <span class="icon icon-check">✓</span>
+                <span>Employee Benefit Administration</span>
+              </div>
+              <div class="coverage-item excluded">
+                <span class="icon icon-close">✗</span>
+                <span>Fixed & Indexed Annuities</span>
+              </div>
+              <div class="coverage-item excluded">
+                <span class="icon icon-close">✗</span>
+                <span>Mutual Funds & Variable Products</span>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <div class="controls-section">
+            <div class="controls-header">
+              <h3>Controls</h3>
+              <svg class="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="6" width="18" height="12" rx="6"/>
+                <circle cx="9" cy="12" r="4"/>
+              </svg>
+            </div>
+            <div class="controls-row">
+              <div class="control-pill">
+                <div class="control-label">
+                  <span>Selected State</span>
+                  <svg class="control-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                </div>
+                <div class="toggle-wrapper">
+                  <div class="toggle-track"></div>
+                  <span class="toggle-label">Inactive</span>
+                </div>
+              </div>
+              <div class="control-pill">
+                <div class="control-label">
+                  <span>Margins</span>
+                  <svg class="control-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 6h2v12H3zm16 0h2v12h-2zM8 8h8v8H8z"/>
+                  </svg>
+                </div>
+                <div class="toggle-wrapper">
+                  <div class="toggle-track"></div>
+                  <span class="toggle-label">Inactive</span>
+                </div>
+              </div>
+              <div class="control-pill">
+                <div class="control-label">
+                  <span>Padding</span>
+                  <svg class="control-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <rect x="8" y="8" width="8" height="8"/>
+                  </svg>
+                </div>
+                <div class="toggle-wrapper">
+                  <div class="toggle-track"></div>
+                  <span class="toggle-label">Inactive</span>
+                </div>
+              </div>
+              <div class="control-pill">
+                <div class="control-label">
+                  <span>Fonts & Content</span>
+                  <span class="control-icon control-icon-aa">Aa</span>
+                </div>
+                <div class="toggle-wrapper">
+                  <div class="toggle-track"></div>
+                  <span class="toggle-label">Inactive</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right">
+          <h3 class="specs-title">General Specifications</h3>
+          <div class="specs-card">
+            <div class="specs-card-title">Flexcard – Default</div>
+            <div class="spec-row">
+              <div class="spec-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2">
+                  <circle cx="12" cy="12" r="8"/>
+                  <circle cx="12" cy="12" r="3" fill="#444"/>
+                </svg>
+              </div>
+              <div class="spec-content">
+                <div class="spec-label">Interaction</div>
+                <div class="spec-value">Radio Selection (Default)</div>
+              </div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-icon palette"></div>
+              <div class="spec-content">
+                <div class="spec-label">BG Color</div>
+                <div class="spec-value-row">
+                  <span class="spec-value">#FFFFFF - 100%</span>
+                  <div class="color-swatch white"></div>
+                </div>
+              </div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-icon border"></div>
+              <div class="spec-content">
+                <div class="spec-label">Border</div>
+                <div class="spec-value-row">
+                  <span class="spec-value">#C9C9C9 - 100%</span>
+                  <div class="color-swatch gray"></div>
+                </div>
+              </div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-icon radius"></div>
+              <div class="spec-content">
+                <div class="spec-label">Corner Radius</div>
+                <div class="spec-value">12px</div>
+              </div>
+            </div>
+            <div class="spec-row">
+              <div class="spec-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#444" stroke-width="2">
+                  <rect x="4" y="8" width="16" height="12" rx="1"/>
+                  <rect x="6" y="6" width="12" height="2"/>
+                </svg>
+              </div>
+              <div class="spec-content">
+                <div class="spec-label">Elevation</div>
+                <div class="spec-value">0px</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

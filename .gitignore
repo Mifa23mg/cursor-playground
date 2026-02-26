@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Salesforce
+.sfdx/
+.sf/
+*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

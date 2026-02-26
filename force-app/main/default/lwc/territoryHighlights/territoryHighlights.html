@@ -1,0 +1,131 @@
+<template>
+    <lightning-card icon-name="standard:account" title="Territory Highlights" variant="narrow">
+        <div slot="actions">
+            <lightning-button-icon icon-name="utility:settings" alternative-text="Settings" variant="border-filled"></lightning-button-icon>
+        </div>
+
+        <lightning-tabset active-tab-value="accounts" variant="scoped">
+            <lightning-tab label="My Accounts" value="accounts">
+                <div class="slds-p-around_medium">
+                    <lightning-card icon-name="standard:account" title="My Accounts" variant="narrow">
+                        <div slot="actions">
+                            <lightning-button-icon icon-name="utility:refresh" alternative-text="Refresh" variant="border-filled"></lightning-button-icon>
+                            <lightning-button variant="brand" label="View All Accounts"></lightning-button>
+                        </div>
+                        <div class="slds-text-body_small slds-text-color_weak slds-m-bottom_small">
+                            55+ items • Sorted by Terri Name • Filtered by My accounts - Account Record Type • Updated a few seconds ago
+                        </div>
+                        <lightning-datatable
+                            key-field="id"
+                            data={tableData}
+                            columns={tableColumns}
+                            hide-checkbox-column
+                            show-row-number-column>
+                        </lightning-datatable>
+                        <div slot="footer">
+                            <lightning-button variant="base" label="View All"></lightning-button>
+                        </div>
+                    </lightning-card>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="Unread Emails" value="emails">
+                <div class="slds-p-around_medium">Unread Emails content</div>
+            </lightning-tab>
+        </lightning-tabset>
+
+        <div class="slds-grid slds-wrap slds-gutters_small slds-p-around_medium">
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-m-bottom_small">
+                <lightning-card title="Priority Cases" variant="narrow">
+                    <div class="donut-container">
+                        <lightning-progress-ring value="65" variant="base" size="large" class="donut-chart"></lightning-progress-ring>
+                        <div class="donut-center">125 Total</div>
+                    </div>
+                    <div class="slds-m-top_medium slds-grid slds-gutters_x-small">
+                        <div class="slds-col slds-size_1-of-1">
+                            <span class="slds-badge slds-badge_inverse" style="background-color:#16325C">Top 20 Accounts</span>
+                            <span class="slds-badge slds-badge_inverse slds-m-left_x-small" style="background-color:#00A1E0">Regular Accounts</span>
+                        </div>
+                    </div>
+                    <div slot="footer" class="slds-grid slds-grid_vertical-align-center">
+                        <lightning-button variant="base" label="View Report"></lightning-button>
+                        <span class="slds-text-body_small slds-text-color_weak slds-m-left_auto">As of today 2:11 PM</span>
+                    </div>
+                </lightning-card>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-m-bottom_small">
+                <lightning-card title="Prior Authorizations" variant="narrow">
+                    <div class="donut-container">
+                        <lightning-progress-ring value="50" variant="base" size="large" class="donut-chart"></lightning-progress-ring>
+                        <div class="donut-center">234 Total</div>
+                    </div>
+                    <div class="slds-m-top_medium">
+                        <span class="slds-badge slds-badge_inverse" style="background-color:#9050E9">Complete</span>
+                        <span class="slds-badge slds-badge_inverse slds-m-left_x-small" style="background-color:#5B2C6F">Delayed</span>
+                        <span class="slds-badge slds-badge_inverse slds-m-left_x-small" style="background-color:#E5E5E5;color:#333">Denied</span>
+                    </div>
+                    <div slot="footer" class="slds-grid slds-grid_vertical-align-center">
+                        <lightning-button variant="base" label="View Report"></lightning-button>
+                        <span class="slds-text-body_small slds-text-color_weak slds-m-left_auto">As of today 2:11 PM</span>
+                    </div>
+                </lightning-card>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-m-bottom_small">
+                <lightning-card title="Benefit Investigations" variant="narrow">
+                    <div class="donut-container">
+                        <lightning-progress-ring value="50" variant="base" size="large" class="donut-chart"></lightning-progress-ring>
+                        <div class="donut-center">126 Total</div>
+                    </div>
+                    <div class="slds-m-top_medium">
+                        <span class="slds-badge slds-badge_inverse" style="background-color:#9050E9">Complete</span>
+                        <span class="slds-badge slds-badge_inverse slds-m-left_x-small" style="background-color:#16325C">Delayed</span>
+                        <span class="slds-badge slds-badge_inverse slds-m-left_x-small" style="background-color:#E5E5E5;color:#333">Denied</span>
+                    </div>
+                    <div slot="footer" class="slds-grid slds-grid_vertical-align-center">
+                        <lightning-button variant="base" label="View Report"></lightning-button>
+                        <span class="slds-text-body_small slds-text-color_weak slds-m-left_auto">As of today 2:11 PM</span>
+                    </div>
+                </lightning-card>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-m-bottom_small">
+                <lightning-card title="Today's Events" variant="narrow">
+                    <div slot="actions">
+                        <lightning-button-icon icon-name="utility:down" alternative-text="Expand" variant="border-filled"></lightning-button-icon>
+                    </div>
+                    <ul class="slds-list_vertical slds-has-dividers_bottom-space">
+                        <li class="slds-item slds-p-vertical_x-small">
+                            <div class="slds-text-body_small slds-text-color_weak">10:00 AM</div>
+                            <lightning-formatted-url label="In Person Visit to Hopkins" value="#" class="slds-text-link"></lightning-formatted-url>
+                            <div class="slds-text-body_small slds-text-color_weak">Johns Hopkins - Baltimore 3400 N. Charles St. Balti...</div>
+                        </li>
+                        <li class="slds-item slds-p-vertical_x-small">
+                            <div class="slds-text-body_small slds-text-color_weak">11:00 AM</div>
+                            <lightning-formatted-url label="Office Visit" value="#" class="slds-text-link"></lightning-formatted-url>
+                            <div class="slds-text-body_small slds-text-color_weak">Dr. Tobby 3400 N. Charles St. Baltimore, MD 21218...</div>
+                        </li>
+                        <li class="slds-item slds-p-vertical_x-small">
+                            <div class="slds-text-body_small slds-text-color_weak">1:00 PM</div>
+                            <lightning-formatted-url label="Call" value="#" class="slds-text-link"></lightning-formatted-url>
+                            <div class="slds-text-body_small slds-text-color_weak">Dr. Jane Nickles</div>
+                        </li>
+                    </ul>
+                    <div slot="footer">
+                        <lightning-button variant="base" label="View Calendar"></lightning-button>
+                    </div>
+                </lightning-card>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-5 slds-m-bottom_small">
+                <lightning-card title="Today's Tasks" variant="narrow">
+                    <div slot="actions">
+                        <lightning-button-icon icon-name="utility:down" alternative-text="Expand" variant="border-filled"></lightning-button-icon>
+                    </div>
+                    <lightning-input type="checkbox" label="Send last quarter's stats" class="slds-m-bottom_x-small"></lightning-input>
+                    <lightning-input type="checkbox" label="Schedule new program with ACME account" checked class="slds-m-bottom_x-small"></lightning-input>
+                    <lightning-input type="checkbox" label="Email Hopkins rep about account issue" class="slds-m-bottom_x-small"></lightning-input>
+                    <div slot="footer">
+                        <lightning-button variant="base" label="View All"></lightning-button>
+                    </div>
+                </lightning-card>
+            </div>
+        </div>
+    </lightning-card>
+</template>
