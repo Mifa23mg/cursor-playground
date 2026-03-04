@@ -1,0 +1,56 @@
+/**
+ * Design System Tokens
+ * Use these variables for consistent styling across the project.
+ */
+
+:root {
+  /* Colors */
+  --color-primary: #0176d3;
+  --color-primary-hover: #014a8f;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f3f3f3;
+  --color-border: #dddbda;
+  --color-text: #181818;
+  --color-text-muted: #706e6b;
+  --color-success: #3ba755;
+  --color-error: #c23934;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* Card patterns */
+  --card-padding: 16px;
+  --card-radius: 8px;
+  --card-border: 1px solid var(--color-border);
+
+  /* Form patterns */
+  --form-field-spacing: 24px;
+
+  /* Modal */
+  --modal-max-width: 480px;
+}
+
+/* Typography classes */
+.text-body {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.text-heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.text-caption {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

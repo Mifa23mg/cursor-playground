@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Component Radiography</title>
+  <link rel="stylesheet" href="src/styles/tokens.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -11,8 +12,8 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fff;
-      color: #181818;
+      background: var(--color-surface);
+      color: var(--color-text);
       line-height: 1.5;
       min-height: 100vh;
     }
@@ -20,8 +21,8 @@
     .page {
       display: flex;
       flex-direction: column;
-      gap: 46px;
-      padding: 24px;
+      gap: var(--space-8);
+      padding: var(--space-6);
       max-width: 1720px;
       margin: 0 auto;
     }
@@ -36,8 +37,8 @@
 
     .main-container {
       display: flex;
-      background: #fff;
-      border-radius: 20px;
+      background: var(--color-surface);
+      border-radius: calc(var(--card-radius) * 2.5);
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
       overflow: hidden;
       height: 840px;
@@ -47,14 +48,14 @@
     .sidebar-left {
       width: 320px;
       flex-shrink: 0;
-      border-right: 1px solid #c9c9c9;
-      padding: 16px;
-      background: #fff;
+      border-right: 1px solid var(--color-border);
+      padding: var(--card-padding);
+      background: var(--color-surface);
     }
 
     .nav-section {
-      background: #f7f7f7;
-      border-radius: 4px;
+      background: var(--color-surface-alt);
+      border-radius: var(--card-radius);
     }
 
     .nav-section-header {
@@ -90,17 +91,17 @@
     }
 
     .nav-item:not(.selected) .selection-indicator { background: transparent; }
-    .nav-item.selected .selection-indicator { background: #0075BC; }
+    .nav-item.selected .selection-indicator { background: var(--color-primary); }
 
     .nav-item .label {
       flex: 1;
       font-size: 16px;
-      color: #444;
+      color: var(--color-text-muted);
       text-decoration: none;
     }
 
     .nav-item.selected .label {
-      color: #0075BC;
+      color: var(--color-primary);
       text-decoration: underline;
       font-weight: 600;
     }
@@ -117,7 +118,7 @@
     .nav-item .arrow svg {
       width: 16px;
       height: 16px;
-      fill: #444;
+      fill: var(--color-text-muted);
     }
 
     /* Center Content */
@@ -131,7 +132,7 @@
 
     .content-main {
       flex: 1;
-      padding: 32px 40px;
+      padding: var(--space-7) var(--space-8);
       position: relative;
       display: flex;
       flex-direction: column;
@@ -140,8 +141,8 @@
 
     .section-header {
       position: absolute;
-      left: 40px;
-      top: 32px;
+      left: var(--space-8);
+      top: var(--space-7);
       background: rgba(0, 0, 0, 0.05);
       padding: 8px 16px;
       border-radius: 20px;
@@ -162,9 +163,9 @@
       transform: translateX(-50%);
       top: 155px;
       width: 375px;
-      background: #fff;
-      border: 2px solid #c9c9c9;
-      border-radius: 12px;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border);
+      border-radius: calc(var(--card-radius) + 4px);
       overflow: hidden;
       cursor: pointer;
     }
@@ -173,7 +174,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #005CA9;
+      background: var(--color-primary);
       color: #fff;
       padding: 12px 20px;
       font-size: 14px;
@@ -181,7 +182,7 @@
     }
 
     .product-card-body {
-      padding: 20px;
+      padding: var(--space-5);
     }
 
     .radio-outer {
@@ -196,9 +197,9 @@
     .product-description {
       font-size: 14px;
       font-weight: 600;
-      color: #00263e;
+      color: var(--color-text);
       line-height: 1.36;
-      margin-bottom: 16px;
+      margin-bottom: var(--card-padding);
     }
 
     .product-divider {
@@ -238,30 +239,30 @@
     }
 
     .coverage-item .icon-check {
-      color: #3ba755;
+      color: var(--color-success);
     }
 
     .coverage-item .icon-close {
-      color: #c23934;
+      color: var(--color-error);
     }
 
     /* Controls Section */
     .controls-section {
       position: absolute;
-      left: 40px;
+      left: var(--space-8);
       bottom: 80px;
       width: calc(100% - 80px);
       max-width: 960px;
       background: rgba(243, 243, 243, 0.4);
-      border-radius: 4px;
-      padding: 16px;
+      border-radius: var(--card-radius);
+      padding: var(--card-padding);
     }
 
     .controls-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: var(--space-3);
+      margin-bottom: var(--card-padding);
     }
 
     .controls-header h3 {
@@ -279,7 +280,7 @@
 
     .controls-row {
       display: flex;
-      gap: 40px;
+      gap: var(--space-8);
       background: rgba(216, 230, 254, 0.4);
       padding: 16px 32px;
       border-radius: 20px;
@@ -291,8 +292,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
-      padding: 12px;
+      gap: var(--space-1);
+      padding: var(--space-3);
       border-radius: 9999px;
       background: transparent;
     }
@@ -300,10 +301,10 @@
     .control-pill .control-label {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: var(--space-3);
       font-size: 16px;
       font-weight: 600;
-      color: #444;
+      color: var(--color-text-muted);
     }
 
     .control-pill .control-icon {
@@ -357,8 +358,8 @@
     .sidebar-right {
       width: 320px;
       flex-shrink: 0;
-      background: #f3f3f3;
-      padding: 24px 16px;
+      background: var(--color-surface-alt);
+      padding: var(--space-6) var(--card-padding);
       border-radius: 0 20px 20px 0;
     }
 
@@ -372,24 +373,24 @@
 
     .specs-card {
       background: rgba(255, 255, 255, 0.6);
-      border-radius: 20px;
-      padding: 16px 8px;
+      border-radius: calc(var(--card-radius) * 2.5);
+      padding: var(--card-padding) var(--space-2);
       box-shadow: inset 0 3px 4px rgba(160, 160, 160, 0.5);
     }
 
     .specs-card-title {
       font-size: 14px;
       font-weight: 700;
-      color: #444;
-      padding: 0 8px 8px;
-      margin-bottom: 8px;
+      color: var(--color-text-muted);
+      padding: 0 var(--space-2) var(--space-2);
+      margin-bottom: var(--space-2);
     }
 
     .spec-row {
       display: flex;
-      gap: 8px;
+      gap: var(--space-2);
       align-items: flex-start;
-      padding: 8px 16px;
+      padding: var(--space-2) var(--card-padding);
     }
 
     .spec-row .spec-icon {
@@ -426,7 +427,7 @@
 
     .spec-label {
       font-size: 14px;
-      color: #444;
+      color: var(--color-text-muted);
       margin-bottom: 4px;
     }
 
